@@ -1,0 +1,1 @@
+const {Compra, Produto, Pessoa} = require('../models')

@@ -42,7 +42,7 @@ exports.getProdutoByID = async (req, res) =>
 
         if(!produto){
             return res.status(404).json({
-                message: "Pessoa nao encontrada"
+                message: "Produto nao encontrada"
             })
         }
 
@@ -52,5 +52,51 @@ exports.getProdutoByID = async (req, res) =>
         return res.status(500).json({
             message: error.message
         })
+    }
+}
+
+exports.updateProduto = async (req, res) =>
+{
+    try {
+        const {id} = req.params;
+        const {nome, valor} = req.body;
+
+        const produto = findByPk(id)
+
+        if(!produto){
+            return res.status(404).json({
+                message: "Produto não encontrada"
+            })
+        }
+
+       await produto.update({nome, valor})
+       res.json(produto);
+       
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}
+
+exports.deleteProduto = async (req, res) =>
+{
+    try {
+        const {id} = req.params;
+        const produto = findByPk(id)
+        if(!produto){
+            return res.status(404).json({
+                message: "Produto não encontrado"
+            })
+        }
+        
+        await produto.destroy();
+        
+    } catch (error) {
+
+        return res.status(500).json({
+            message: error.message
+        })
+        
     }
 }
